@@ -8,6 +8,14 @@ import numpy as np
 class QTableLearner:
 
     def __init__(self, env, model_name):
+        """ Constructor for QTableLearner.
+
+        Parameters: 
+        env (gym environment): Open AI gym (Toy Text) environment of the game.
+        model_name (str): Name of the Open AI gym game
+
+        Returns: None
+        """
         self.env = env
         self.model_name = model_name
         action_size = self.env.action_space.n
@@ -17,6 +25,21 @@ class QTableLearner:
         self.steps_per_episode = 100
 
     def _render_logs(self, episode, total_episodes, epsilon, step, action, reward, done, done_count):
+        """Rendering text logs on console window.
+
+        Parameters:
+        episode (int): Running episode number.
+        train_episodes (int): The total number of gameplay episodes to learn from for agent.
+        epsilon (int): Exploration Exploitation tradeoff rate for running episode.
+        step (int): Step count for current episode.
+        action (int): Action taken for the current state of environment.
+        reward (int): Reward for the action taken in the environment.
+        done (bool): Flag to know where the episode is finished or not.
+        done_count (int): Counter for how many time the agent finished the episode before timeout.
+
+        Returns: None
+        """
+
         # Clear Screen
         os.system('cls') if platform.system() == \
             'Windows' else os.system('clear')
@@ -32,11 +55,25 @@ class QTableLearner:
         print(f'Episode Done ? :\t{"Yes" if done else "No"}')
         print(f'Done Count     :\t{done_count}')
 
-    def _render_env(self, ):
+    def _render_env(self):
+        """Renders the environment."""
         print()
         self.env.render()
 
     def _render_time(self, episode_left, episode_t,  step_t, done, step_end, render, wait=0.02):
+        """ Calculates and renders time metrics for training.
+        
+        Parameters:
+        episode_left (int): Number of episodes left out of total episodes.
+        episode_t (int): Running episode time in seconds.
+        step_t (int): Running episode step in seconds.
+        done (bool): Flag to know where the episode is finished or not.
+        step_end (bool): Flag to know if running step is last step of episode limit.
+        render (bool): Flag to render the training environment if possible.
+        wait (float): Waiting time to continue process. (default:0.02)
+
+        Returns: None
+        """
         if self.avg_time == 0:
             self.avg_time = episode_t
         elif done or step_end:
@@ -53,7 +90,17 @@ class QTableLearner:
         if render:
             sleep(wait)
 
-    def train(self, train_episodes=10000, test_episodes=1000, lr=0.7, gamma=0.6, render=False):
+    def train(self, train_episodes=10000, lr=0.7, gamma=0.6, render=False):
+        """ Calling this method will start the training process.
+
+        Parameters: 
+        train_episodes (int): The total number of gameplay episodes to learn from for agent. (default:10000)
+        lr (float): Learning Rate used by the agent to update the Q-Table after each episode. (default:0.7)
+        gamma (float): Discount Rate used by the agent in Bellman's Equation. (default:0.6)
+        render (bool): Flag to render the training environment if possible. (default:False)
+
+        Returns: None
+        """
         (epsilon, max_epsilon, min_epsilon, decay_rate) = (1.0, 1.0, 0.01, 0.01)
         done_count = 0
 
@@ -106,6 +153,14 @@ class QTableLearner:
         self.env.close()
 
     def test(self, test_episodes=200, render=False):
+        """ Testing method to know our environment performance.
+
+        Parameters:
+        test_episodes (int): Total number of episodes to evaluate performance.
+        render (bool): Flag to render the training environment if possible. (default:False)
+
+        Returns: None
+        """
         self.env.reset()
         rewards = list()
         for episode in range(test_episodes):
