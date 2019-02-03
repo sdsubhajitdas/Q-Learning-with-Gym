@@ -295,18 +295,5 @@ class QTableLearner:
         sleep(3)
 
 
-if __name__ == "__main__":
-    model = 'Taxi-v2'
-    #model = 'CartPole-v1'
-    #model = 'Blackjack-v0'
-    #model = 'FrozenLake-v0'
-    #model = 'FrozenLake8x8-v0'
-    #model = 'GuessingGame-v0'
-    #model = 'HotterColder-v0'
-    #model = 'NChain-v0'
-    #model = 'Roulette-v0'
-    taxi_driver = QTableLearner(gym.make(model), model)
-    taxi_driver.load_model(os.path.join('saved_models', model+'.npy'))
-    taxi_driver.train(train_episodes=10, render=False)
-    taxi_driver.save_model()
-    taxi_driver.test(test_episodes=10, render=True)
+
+
