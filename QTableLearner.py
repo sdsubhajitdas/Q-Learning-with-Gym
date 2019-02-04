@@ -217,10 +217,11 @@ class QTableLearner:
         self.env.reset()
         # Collecting the rewards over time.
         rewards = list()
+        done_count = 0
         for episode in range(test_episodes):
             state = self.env.reset()
             # Reward for current episode.
-            total_rewards, done_count = 0, 0
+            total_rewards = 0
             for _ in range(self.steps_per_episode):
                 # Selecting the best action.
                 action = np.argmax(self.qtable[state, :])
